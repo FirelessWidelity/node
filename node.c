@@ -1,4 +1,4 @@
-/*
+ /*
  * =====================================================================================
  *
  *       Filename:  test.c
@@ -29,8 +29,9 @@
 typedef struct vector {
 	struct vector* next;
 	struct vector* prev;
-	struct vector* HEAD;
-
+    union {
+	    struct vector* HEAD;
+    };
 	union {
 		int32_t data;
 	};
@@ -41,7 +42,8 @@ void push_to_begin (vector* V, vector* p);
 void push_to_end (vector* V, vector* p);
 void print_node (vector *p);
 void free_all (vector* p);
-vector* find_1st_el (vector* p);
+vector* find_first_el (vector* p);
+vector* find_last_el (vector* p);
 
 int main ( int argc, char *argv[] ) {
 
@@ -68,65 +70,49 @@ int main ( int argc, char *argv[] ) {
 	vector* five = NEW_VECTOR;
 	push_to_begin (five, four);
 
-	//vector* p = four;
+	vector* p = four;
 
-	print_node (&MASS[4]);
+	print_node (p);
 
-	//free_all (p);
+	free_all (p);
 
 	return EXIT_SUCCESS;
 }
 
 void push_to_begin (vector* V, vector* p) {
-	p = find_1st_el (p);
+	p = find_first_el (p);
 	p->prev = V;
 	p->HEAD = NULL;
-	V->HEAD = V;
-	V->next = p;
 	V->prev = NULL;
+	V->next = p;
+	V->HEAD = V;
 	V->data = p->data - 100;
 }
 
 void free_all (vector* p) {
-	int tmp;
-	tmp = 1;
-	vector* current;
-	
-	while (1) {
-		if (p->HEAD == NULL) {
-			while (p->HEAD == NULL) {
-				p = p->prev;
-			}
-		}
-		current = p;
-		if (current) {
-			free (current);
-			printf ("\n delete el: %d", tmp);
-			if (p->next != NULL) {
-				p = p->next;
-			}
-			else {
-				break;
-			}
-		}
-		
-	}
+    p = find_first_el (p);
+    vector* el = p->next;
+
+    int tmp = 0;
+    while (el) {
+        free (p);
+        p = el;
+	    printf ("\n deleted %d el", ++tmp);
+        el = el->next;
+    }
 }
 
 void push_to_end (vector* V, vector* p) {
-	while (p->next != NULL) {
-		p = p->next;
-	}
+	p = find_last_el (p);
 
 	p->next = V;
 	V->next = NULL;
-	V->HEAD = NULL;
 	V->prev = p;
 	V->data = p->data + 100;
 }
 
 void print_node (vector *p) {
-	p = find_1st_el (p);
+	p = find_first_el (p);
 	int tmp;
 	for (tmp = 1; ;) {
 		printf ("\n counter: %d, data: %d", tmp++, p->data);
@@ -137,10 +123,17 @@ void print_node (vector *p) {
 	}
 }
 
-vector* find_1st_el (vector* p) {
+vector* find_first_el (vector* p) {
 	while (p->HEAD == NULL) {
 		p = p->prev;
 	}
 	return p;
 }
 
+
+vector* find_last_el (vector* p) {
+	while (p->next != NULL) {
+		p = p->next;
+	}
+	return p;
+}
