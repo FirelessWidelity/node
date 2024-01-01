@@ -42,6 +42,13 @@ int main (int argc, char *argv[]) {
 	return EXIT_SUCCESS;
 }
 
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  init_begin
+ *  Description:  init first element of the linked list
+ *  
+ * =====================================================================================
+ */
 void init_begin (int32_t data) {
 	vector* first_el = NULL;
 	first_el = NEW_VECTOR;
@@ -52,6 +59,13 @@ void init_begin (int32_t data) {
 	END  = first_el;
 }
 
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  push_to_begin
+ *  Description:  push element to the begin of the linked list
+ *  
+ * =====================================================================================
+ */
 void push_to_begin (int32_t data) {
 	vector* el = NULL;
 	el = NEW_VECTOR;
@@ -64,6 +78,13 @@ void push_to_begin (int32_t data) {
 	HEAD = el;
 }
 
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  push_to_end
+ *  Description:  push element to the end of the linked list
+ *  
+ * =====================================================================================
+ */
 void push_to_end (int32_t data) {
 	vector* el = NULL;
 	el = NEW_VECTOR;
@@ -77,6 +98,13 @@ void push_to_end (int32_t data) {
 	END = el;
 }
 
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  free_all
+ *  Description:  delete all elements of the linked list
+ *  
+ * =====================================================================================
+ */
 void free_all () {
     vector* p = HEAD;
     vector* el = p->next;
@@ -90,6 +118,13 @@ void free_all () {
     }
 }
 
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  print_node
+ *  Description:  print all elements of the linked list
+ *  
+ * =====================================================================================
+ */
 void print_node () {
 	vector* p = HEAD;
 	int tmp;
